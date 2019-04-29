@@ -52,14 +52,14 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     rawCapture.truncate(0)
  
 	 # if the `q` key was pressed, break from the loop
-    if key == ord("q"):
+    if key == ord("c"):
         image = frame.array
         imagepath = os.path.join(directory,'images', 'testimage.jpg')
         cv2.imwrite(imagepath, image)
         cv2.destroyAllWindows()
         os.system('sudo python3 Eclampsia.py')
 
-    if key == ord("z"):
+    if key == ord("q"):
         cv2.destroyAllWindows()
         sys.exit()
         break

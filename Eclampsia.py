@@ -51,26 +51,26 @@ class Ui_MainWindow(object):
         ##CODE FOR DIAGNOSIS 
         
         message = ''
-        if(pregnancy_float < 20):      
+        if(preg_float < 20):      
             if(hpress_float > 140):
-                if(prot_float > 3):    
+                if(prot_float > 0.3):    
                     message = 'No preclampsia, but possible hypertension and kidney disease, confirmatory tests recommended'
                 else:
                     message = 'No preclampsia, but possible hypertension'
             else:
-                if(prot_float > 3):    
+                if(prot_float > 0.3):    
                     message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
                 else:
                     message = 'No preclampsia, No eclampsia or hypertension detected'
         
         else:
             if(hpress_float > 140 and hpress_float < 160):
-                if(prot_float > 3):    
+                if(prot_float > 0.3):    
                     message = 'Mild preclampsia detected, confirmatory tests recommended'
                 else:
                     message = 'No preclampsia, but possible hypertension'
             elif(hpress_float > 160):
-                if(prot_float > 3):    
+                if(prot_float > 0.3):    
                     message = 'Severe preclampsia detected'
                 else:
                     message = 'Severe hypertension detected'

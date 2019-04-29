@@ -58,14 +58,14 @@ def colourIndex(testimage):
             nonzero = cv2.countNonZero(mask)
             pixel_list.append(nonzero)
             
-            '''
+            
             print('Number of Nonzero Pixels: ', nonzero)
             cv2.imshow('Mask', mask)
             cv2.imshow('Original', testimage)
             cv2.imshow('Result', result)
             cv2.waitKey(0)  
             cv2.destroyAllWindows()
-            '''
+            
             
     highvalindex = pixel_list.index(max(pixel_list))
     
