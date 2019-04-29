@@ -51,7 +51,7 @@ class Ui_MainWindow(object):
         ##CODE FOR DIAGNOSIS 
         
         message = ''
-        if(pregnancy_age < 20):      
+        if(pregnancy_float < 20):      
             if(hpress_float > 140):
                 if(prot_float > 3):    
                     message = 'No preclampsia, but possible hypertension and kidney disease, confirmatory tests recommended'
