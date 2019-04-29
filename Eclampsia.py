@@ -48,11 +48,38 @@ class Ui_MainWindow(object):
         preg_float = float(pregnancy_age)
         prot_float = float(protein_value)
         
-        param_list = [name, hpress_float, lpress_float, preg_float, prot_float]
+        ##CODE FOR DIAGNOSIS 
+        
+        message = ''
+        if(pregnancy_age < 20):      
+            if(hpress_float > 140):
+                if(prot_float > 3):    
+                    message = 'No preclampsia, but possible hypertension and kidney disease, confirmatory tests recommended'
+                else:
+                    message = 'No preclampsia, but possible hypertension'
+            else:
+                if(prot_float > 3):    
+                    message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
+                else:
+                    message = 'No preclampsia, No eclampsia or hypertension detected'
+        
+        else:
+            if(hpress_float > 140 and hpress_float < 160):
+                if(prot_float > 3):    
+                    message = 'Mild preclampsia detected, confirmatory tests recommended'
+                else:
+                    message = 'No preclampsia, but possible hypertension'
+            elif(hpress_float > 160):
+                if(prot_float > 3):    
+                    message = 'Severe preclampsia detected'
+                else:
+                    message = 'Severe hypertension detected'
+            
+        param_list = [name, hpress_float, lpress_float, preg_float, prot_float, message]
         title_list = ['Name','High Blood Pressure', 'Low Blood Pressure', 'Preg Age', 'Protein Value', 'Result']
         
         
-        ##CODE FOR DIAGNOSIS 
+        
         
         csvpath = os.path.join(directory,'Data.csv')
         
@@ -73,7 +100,7 @@ class Ui_MainWindow(object):
         
         
         
-        self.output.setText("This is the result output")
+        self.output.setText(message)
     
     
     def imageCheck(self):
