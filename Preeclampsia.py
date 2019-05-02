@@ -34,73 +34,136 @@ class Ui_MainWindow(object):
         high_pressure = self.highPressure.text()
         low_pressure = self.lowPressure.text()
         pregnancy_age = self.pregnancy.text()
+        
         protein_value = ProteinExtract.imageExtract(directory)
         
-
         print('Name: ', name)
         print('High Pressure: ', high_pressure)
         print('Low Pressure: ', low_pressure)
         print('Age: ', pregnancy_age)
         print('Protein Value: ', protein_value)
         
-        hpress_float = float(high_pressure)
-        lpress_float = float(low_pressure)
-        preg_float = float(pregnancy_age)
-        prot_float = float(protein_value)
+        highpressureflag = 0
+        lowpressureflag = 0
+        pregnancyflag = 0
         
-        ##CODE FOR DIAGNOSIS 
-        
-        message = ''
-        if(preg_float < 20):      
-            if(hpress_float > 140):
-                if(prot_float > 0.3):    
-                    message = 'No preclampsia, but possible hypertension and kidney disease, confirmatory tests recommended'
-                else:
-                    message = 'No preclampsia, but possible hypertension'
-            else:
-                if(prot_float > 0.3):    
-                    message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
-                else:
-                    message = 'No preclampsia, No eclampsia or hypertension detected'
-        
-        else:
-            if(hpress_float > 140 and hpress_float < 160):
-                if(prot_float > 0.3):    
-                    message = 'Mild preclampsia detected, confirmatory tests recommended'
-                else:
-                    message = 'No preclampsia, but possible hypertension'
-            elif(hpress_float > 160):
-                if(prot_float > 0.3):    
-                    message = 'Severe preclampsia detected'
-                else:
-                    message = 'Severe hypertension detected'
+        if(name == '' or high_pressure == '' or low_pressure == '' or pregnancy_age == ''):
+            message = 'Fill in the missing values'
             
-        param_list = [name, hpress_float, lpress_float, preg_float, prot_float, message]
-        title_list = ['Name','High Blood Pressure', 'Low Blood Pressure', 'Preg Age', 'Protein Value', 'Result']
-        
-        
-        
-        
-        csvpath = os.path.join(directory,'Data.csv')
-        
-        print('CSVPATH: ', csvpath)
-        
-        
-        exists = os.path.isfile(csvpath)
-        if exists:
-            with open(csvpath,'a') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerow(param_list)
         else:
-            with open(csvpath,'a') as csvfile: 
-                writer = csv.writer(csvfile)
-                writer.writerow(title_list)
-                writer.writerow(param_list)
+            
+            prot_float = float(protein_value)
+            
+            try:
+                hpress_float = float(high_pressure)
+                
+                if(hpress_float < 250 and hpress_float > 100):   
+                    highpressureflag = 1
+                else:
+                    message = 'High Pressure value out of range'
+                
+                try:
+                    lpress_float = float(low_pressure)
+                    
+                    if(lpress_float < 250 and lpress_float > 30):   
+                        lowpressureflag = 1
+                    else:
+                        message = 'Low Pressure value out of range'
+                    
+                    try:
+                        preg_float = float(pregnancy_age)
+                        
+                        if(preg_float < 40 and preg_float > 1):   
+                            pregnancyflag = 1
+                        else:
+                            message = 'Prgnancy age value out of range'
+                        
+                    except ValueError:
+                        self.pregnancy.setText("")
+                        message = 'Input a number value for pregnancy'
+                        
+                        
+                except ValueError:
+                    self.lowPressure.setText("")
+                    message = 'Input a number value for low blood pressure'
+                
+
+            except ValueError:
+                self.highPressure.setText("")
+                message = 'Input a number value for high blood pressure'
+            
+        
+        
+               
+            if(highpressureflag == 1 and lowpressureflag == 1 and pregnancyflag == 1):
+            
+            
+                ##CODE FOR DIAGNOSIS 
+                
+                message = ''
+                if(preg_float < 20):      
+                    if(hpress_float > 140):
+                        if(prot_float > 0.3):    
+                            message = 'No preclampsia, but possible hypertension and kidney disease, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, but possible hypertension'
+                    else:
+                        if(prot_float > 0.3):    
+                            message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, or hypertension detected'
+                
+                else:
+                    if(hpress_float > 140 and hpress_float < 160):
+                        if(prot_float > 0.3):    
+                            message = 'Mild preclampsia detected, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, but possible hypertension'
+                    elif(hpress_float > 160):
+                        if(prot_float > 0.3):    
+                            message = 'Severe preclampsia detected'
+                        else:
+                            message = 'Severe hypertension detected'
+                
+                stored_message = message
+                      
+                    
+                param_list = [name, hpress_float, lpress_float, preg_float, prot_float, stored_message]
+                title_list = ['Name','High Blood Pressure', 'Low Blood Pressure', 'Preg Age', 'Protein Value', 'Result']
+                
+                
+                
+                
+                csvpath = os.path.join(directory,'Data.csv')
+                
+                print('CSVPATH: ', csvpath)
+                
+                
+                exists = os.path.isfile(csvpath)
+                if exists:
+                    with open(csvpath,'a') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow(param_list)
+                else:
+                    with open(csvpath,'a') as csvfile: 
+                        writer = csv.writer(csvfile)
+                        writer.writerow(title_list)
+                        writer.writerow(param_list)
         
         
         
+        msg_len = len(message)
+        print(msg_len)
         
-        self.output.setText(message)
+        if(msg_len > 40 and msg_len < 80):
+            final_message = message[0:41] + '\n' + message[41:] 
+        
+        elif(msg_len > 80):
+            final_message = message[0:41] + '\n' + message[41:81] + '\n' + message[81:] 
+            
+        else:
+            final_message = message     
+        self.output.setText(final_message)
     
     
     def imageCheck(self):
@@ -272,12 +335,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Eclampsia Detection"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Preeclampsia Detection"))
         self.label.setText(_translate("MainWindow", "Mother\'s Name"))
         self.label_2.setText(_translate("MainWindow", "Age of Pregnancy"))
         self.label_3.setText(_translate("MainWindow", "Higher Blood Pressure"))
         self.label_4.setText(_translate("MainWindow", "Lower Blood Pressure"))
-        self.label_5.setText(_translate("MainWindow", "Eclampsia Smart Diagnosis System"))
+        self.label_5.setText(_translate("MainWindow", "Preeclampsia Smart Diagnosis System"))
         self.diagnoseButton.setText(_translate("MainWindow", "Diagnose"))
         self.imageButton.setText(_translate("MainWindow", "Load Image"))
         self.clearBtn.setText(_translate("MainWindow", "New Diagnosis"))

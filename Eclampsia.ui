@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Eclampsia Detection</string>
+   <string>Preeclampsia Detection</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="motherName">
@@ -191,7 +191,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Eclampsia Smart Diagnosis System</string>
+     <string>Preeclampsia Smart Diagnosis System</string>
     </property>
    </widget>
    <widget class="QPushButton" name="diagnoseButton">
