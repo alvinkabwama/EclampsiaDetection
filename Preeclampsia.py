@@ -9,7 +9,7 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-directory = os.path.join(BASE_DIR, 'Preeclampsia')
+directory = os.path.join(BASE_DIR, 'Test_Strip')
 #directory = BASE_DIR
 
 print(directory)
@@ -125,6 +125,12 @@ class Ui_MainWindow(object):
                             message = 'Severe preclampsia detected'
                         else:
                             message = 'Severe hypertension detected'
+                    else:
+                        if(prot_float > 0.3):    
+                            message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, or hypertension detected'
+                        
                 
                 stored_message = message
                       
