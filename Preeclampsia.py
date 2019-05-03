@@ -9,7 +9,7 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-directory = os.path.join(BASE_DIR, 'EclampsiaDetection')
+directory = os.path.join(BASE_DIR, 'Preeclampsia')
 #directory = BASE_DIR
 
 print(directory)
@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
             try:
                 hpress_float = float(high_pressure)
                 
-                if(hpress_float < 250 and hpress_float > 100):   
+                if(hpress_float < 250 and hpress_float > 120):   
                     highpressureflag = 1
                 else:
                     message = 'High Pressure value out of range'
@@ -108,6 +108,7 @@ class Ui_MainWindow(object):
                         else:
                             message = 'No preclampsia, but possible hypertension'
                     else:
+                        print('Pressure less than 140')
                         if(prot_float > 0.3):    
                             message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
                         else:
