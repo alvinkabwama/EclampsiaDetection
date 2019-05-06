@@ -57,18 +57,18 @@ class Ui_MainWindow(object):
             try:
                 hpress_float = float(high_pressure)
                 
-                if(hpress_float < 250 and hpress_float > 120):   
+                if(hpress_float <= 190 and hpress_float >= 70):   
                     highpressureflag = 1
                 else:
-                    message = 'High Pressure value out of range'
+                    message = 'Systolic Pressure value out of range'
                 
                 try:
                     lpress_float = float(low_pressure)
                     
-                    if(lpress_float < 250 and lpress_float > 30):   
+                    if(lpress_float <= 100 and lpress_float >= 40):   
                         lowpressureflag = 1
                     else:
-                        message = 'Low Pressure value out of range'
+                        message = 'Daistolic Pressure value out of range'
                     
                     try:
                         preg_float = float(pregnancy_age)
@@ -101,40 +101,76 @@ class Ui_MainWindow(object):
                 ##CODE FOR DIAGNOSIS 
                 
                 message = ''
-                if(preg_float < 20):      
-                    if(hpress_float > 140):
+                if(preg_float <= 20):      
+                    if(hpress_float >= 70 and hpress_float <= 90):
                         if(prot_float > 0.3):    
-                            message = 'No preclampsia, but possible hypertension and kidney disease, confirmatory tests recommended'
+                            message = 'No preclampsia, low blood pressure and kidney disease suspected, confirmatory tests recommended'
                         else:
-                            message = 'No preclampsia, but possible hypertension'
-                    else:
-                        print('Pressure less than 140')
+                            message = 'No preclampsia, low blood pressure'
+                    
+                    elif(hpress_float > 90 and hpress_float <= 120):
                         if(prot_float > 0.3):    
-                            message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
+                            message = 'No preclampsia, ideal blood pressure but kidney disease suspected, confirmatory tests recommended'
                         else:
-                            message = 'No preclampsia, or hypertension detected'
+                            message = 'No preclampsia, ideal blood pressure'
+                    
+                    
+                    elif(hpress_float > 120 and hpress_float <= 140):
+                        if(prot_float > 0.3):    
+                            message = 'No preclampsia, pre-high blood pressure and kidney disease suspected, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, pre-high blood pressure suspected'
+                            
+                    elif(hpress_float > 140 and hpress_float <= 190):
+                        if(prot_float > 0.3):    
+                            message = 'No preclampsia, chronic hypertension and kidney disease suspected, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, chronic hypertension suspected'
+                    
+                else:
+                    print()
+                    
+                    
+                        
                 
                 else:
-                    if(hpress_float > 140 and hpress_float < 160):
+                    if(hpress_float >= 70 and hpress_float <= 90):
+                        if(prot_float > 0.3):    
+                            message = 'Protenuria suspected, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, low blood pressure'
+                    
+                    elif(hpress_float > 90 and hpress_float <= 120):
+                        if(prot_float > 0.3):    
+                            message = 'Protenuria suspected, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, ideal blood pressure'
+                    
+                    
+                    elif(hpress_float > 120 and hpress_float <= 140):
+                        if(prot_float > 0.3):    
+                            message = 'Protenuria suspected, confirmatory tests recommended'
+                        else:
+                            message = 'No preclampsia, pre-high blood pressure suspected'
+                            
+                    elif(hpress_float > 140 and hpress_float <= 160):
                         if(prot_float > 0.3):    
                             message = 'Mild preclampsia detected, confirmatory tests recommended'
                         else:
-                            message = 'No preclampsia, but possible hypertension'
-                    elif(hpress_float > 160):
+                            message = 'No preclampsia, gestational high blood pressure suspected'
+                            
+                         
+                    elif(hpress_float > 160 and hpress_float <= 190):
                         if(prot_float > 0.3):    
-                            message = 'Severe preclampsia detected'
+                            message = 'Severe preclampsia detected, confirmatory tests recommended'
                         else:
-                            message = 'Severe hypertension detected'
+                            message = 'No preclampsia, gestational high blood pressure suspected'
+                            
                     else:
-                        if(prot_float > 0.3):    
-                            message = 'No preclampsia, but possible kidney disease, confirmatory tests recommended'
-                        else:
-                            message = 'No preclampsia, or hypertension detected'
-                        
+                        print()
                 
                 stored_message = message
-                      
-                    
+                
                 param_list = [name, hpress_float, lpress_float, preg_float, prot_float, stored_message]
                 title_list = ['Name','High Blood Pressure', 'Low Blood Pressure', 'Preg Age', 'Protein Value', 'Result']
                 
@@ -167,6 +203,9 @@ class Ui_MainWindow(object):
         
         elif(msg_len > 80):
             final_message = message[0:41] + '\n' + message[41:81] + '\n' + message[81:] 
+            
+        elif(msg_len > 120):
+            final_message = message[0:41] + '\n' + message[41:81] + '\n' + message[81:121] + '\n' + message[121:]
             
         else:
             final_message = message     
@@ -345,8 +384,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Preeclampsia Detection"))
         self.label.setText(_translate("MainWindow", "Mother\'s Name"))
         self.label_2.setText(_translate("MainWindow", "Age of Pregnancy"))
-        self.label_3.setText(_translate("MainWindow", "Higher Blood Pressure"))
-        self.label_4.setText(_translate("MainWindow", "Lower Blood Pressure"))
+        self.label_3.setText(_translate("MainWindow", "Systolic Blood Pressure"))
+        self.label_4.setText(_translate("MainWindow", "Diastolic Blood Pressure"))
         self.label_5.setText(_translate("MainWindow", "Preeclampsia Smart Diagnosis System"))
         self.diagnoseButton.setText(_translate("MainWindow", "Diagnose"))
         self.imageButton.setText(_translate("MainWindow", "Load Image"))
